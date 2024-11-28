@@ -1,0 +1,19 @@
+.navBar {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: white;
+    border-bottom: solid;
+    border-color: #221f1f;
+    border-width: 5px;
+    
+  }
+  
+  .nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-left > *:not(:last-child), .nav-right > *:not(:last-child) {
+    margin-right: 20px;
+  }

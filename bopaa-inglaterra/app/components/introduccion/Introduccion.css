@@ -1,0 +1,12 @@
+.containerIntroduccion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+    height: 30vh;
+    background-color: brown;
+    background-color: black;
+    border-bottom: solid;
+    border-color: #343a40;
+    border-width: 5px;
+}
