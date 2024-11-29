@@ -1,7 +1,9 @@
+import '../NavBar.css';
+
 export const NavBarDescubrir = () => {
     return (
       <div className='containerDescubrir'>
-        <p className='textDescubrir'>Descubrir</p>
+        <p className='navBarButton'>Descubrir</p>
       </div>
     );
   }

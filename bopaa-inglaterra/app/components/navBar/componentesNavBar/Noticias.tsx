@@ -1,7 +1,9 @@
-export const NavBarNoticias= () => {
+import '../NavBar.css';
+
+export const NavBarNoticias = () => {
     return (
       <div className='containerNoticias'>
-        <p className='textNoticias'>Noticias</p>
+        <p className='navBarButton'>Noticias</p>
       </div>
     );
   }

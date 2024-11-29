@@ -1,7 +1,9 @@
+import '../NavBar.css';
+
 export const NavBarInversiones = () => {
     return (
       <div className='containerInversiones'>
-        <p className='textInversiones'>Inversiones</p>
+        <p className='navBarButton'>Inversiones</p>
       </div>
     );
   }
