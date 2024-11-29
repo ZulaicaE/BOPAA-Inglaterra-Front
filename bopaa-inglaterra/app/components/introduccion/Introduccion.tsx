@@ -3,8 +3,8 @@ import './Introduccion.css'
 
 export const Introduccion = () => {
   return (
-    <nav className='container text-center containerIntroduccion'> 
-      <div className='d-flex align-items-center nav-left'>
+    <nav className='container containerIntroduccion'> 
+      <div>
         <IntroduccionText />
       </div>
     </nav>

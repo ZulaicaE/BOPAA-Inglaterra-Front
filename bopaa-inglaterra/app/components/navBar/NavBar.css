@@ -1,12 +1,12 @@
 .navBar {
     display: flex;
     justify-content: center;
+    height: 15vh;
     width: 100%;
     background-color: white;
     border-bottom: solid;
-    border-color: #221f1f;
+    border-color: #343a40;
     border-width: 5px;
-    
   }
   
   .nav-left, .nav-right {
@@ -16,4 +16,17 @@
   
   .nav-left > *:not(:last-child), .nav-right > *:not(:last-child) {
     margin-right: 20px;
+  }
+
+  .navBarButton {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    border-color: #221f1f;
+    color: #221f1f;
+    height: 30px;
+    border-width: 1px;
+    border-left: solid;
+    padding-left: 10px;
+    font-weight: 700;
   }
