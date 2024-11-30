@@ -2,7 +2,7 @@ import styles from "./page.module.css";
 import { NavBar } from "./components/navBar/NavBar";
 import { Introduccion } from "./components/introduccion/Introduccion";
 import { Footer } from "./components/footer/Footer";
-import { Grafico } from "./components/graficas/GraficoLinea";
+import GraficoLinea from "./components/graficas/GraficoLinea";
 
 export default function Home() {
   return (
@@ -10,7 +10,7 @@ export default function Home() {
       <NavBar />
       <Introduccion/>
       <div className={styles.containerGraficos}>
-      <Grafico />
+      <GraficoLinea />
       </div>
       <Footer/>
     </main>
