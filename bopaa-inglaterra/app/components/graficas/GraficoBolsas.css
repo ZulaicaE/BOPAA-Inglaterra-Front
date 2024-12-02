@@ -1,0 +1,71 @@
+.grafico-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.container-grafico {
+    width: 70%;
+    /* 70% del ancho para el gráfico */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #e1e3e6;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container-botones {
+    width: 30%;
+    /* 30% del ancho para los botones */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px;
+}
+
+.bolsa-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    margin: 4px;
+    font-size: 14px;
+    width: 100%;
+    /* Ocupa todo el ancho de la columna */
+    text-align: center;
+}
+
+.nombre {
+    margin-left: auto;
+    text-align: right;
+}
+
+.fechas-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.fecha-input {
+    flex: 1;
+    margin-right: 5px;
+}
+
+.fecha-input:last-child {
+    margin-right: 0;
+}
+
+.modo-cotizacion-buttons {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.modo-cotizacion-buttons button {
+    margin-bottom: 5px;
+}
