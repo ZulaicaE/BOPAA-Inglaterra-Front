@@ -166,8 +166,3 @@ a.secondary {
     filter: invert();
   }
 }
-
-.containerGraficos {
-  height: 400px;
-  padding: 50px;
-}

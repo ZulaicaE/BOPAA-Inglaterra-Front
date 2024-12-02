@@ -9,9 +9,7 @@ export default function Home() {
     <main className={styles.main}>
       <NavBar />
       <Introduccion/>
-      <div className={styles.containerGraficos}>
       <GraficoLinea />
-      </div>
       <Footer/>
     </main>
   );
