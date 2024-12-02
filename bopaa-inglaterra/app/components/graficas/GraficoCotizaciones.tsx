@@ -1,6 +1,6 @@
 'use client';
 
-import './GraficoLinea.css';
+import './GraficoCotizaciones.css';
 import { getCotizacionesByFecha, getEmpresas } from '@/app/services/Empresas';
 import { useEffect, useState } from 'react';
 import { Chart } from 'react-google-charts';
@@ -13,7 +13,26 @@ interface Empresa {
   nombreEmpresa: string;
 }
 
-function BotonesEmpresa() {
+export const options = {
+  legend: "none",
+  bar: { groupWidth: "80%" }, // Remove space between bars.
+  candlestick: {
+    fallingColor: { strokeWidth: 0, fill: "#a52714" }, // red
+    risingColor: { strokeWidth: 0, fill: "#0f9d58" }, // green
+  },
+  line: {
+    curveType: 'function',
+    pointSize: 5,
+  },
+  hAxis: {
+    title: 'Fecha',
+  },
+  vAxis: {
+    title: 'Valor',
+  }
+};
+
+function GraficosCotizaciones() {
   const [empresas, setEmpresas] = useState<Empresa[]>([]);
   const [empresaSeleccionada, setEmpresaSeleccionada] = useState<string | null>(null);
   const [modoCotizacion, setModoCotizacion] = useState<'horaDelDia' | 'diaDelMes'>('horaDelDia');
@@ -81,7 +100,7 @@ function BotonesEmpresa() {
         console.log(cotizacionesMes);
         // Formatear datos para el gráfico de velas
         const datosVelas = [
-          ['Fecha', 'Apertura', 'Alto', 'Bajo', 'Cierre'],
+          ['Fecha', 'Minimo', 'Apertura', 'Cierre', 'Maximo'],
           ...Object.entries(
             cotizacionesMes.reduce((acc: any, cotizacion: any) => {
               const fecha = cotizacion.fecha;
@@ -90,22 +109,22 @@ function BotonesEmpresa() {
               if (!acc[fecha]) {
                 acc[fecha] = {
                   fecha,
+                  minimo: precio,
                   apertura: precio,
                   cierre: precio,
-                  alto: precio,
-                  bajo: precio,
+                  maximo: precio,
                 };
               } else {
                 acc[fecha].cierre = precio; // Actualiza el cierre al precio más reciente de la fecha.
-                acc[fecha].alto = Math.max(acc[fecha].alto, precio);
-                acc[fecha].bajo = Math.min(acc[fecha].bajo, precio);
+                acc[fecha].maximo = Math.max(acc[fecha].maximo, precio);
+                acc[fecha].minimo = Math.min(acc[fecha].minimo, precio);
               }
         
               return acc;
             }, {})
           ).map(([fecha, valores]: [string, any]) => {
             // Construye el array en el formato esperado.
-            return [fecha, valores.apertura, valores.alto, valores.bajo, valores.cierre];
+            return [fecha, valores.minimo, valores.apertura, valores.cierre, valores.maximo];
           }),
         ];
       
@@ -133,16 +152,7 @@ function BotonesEmpresa() {
             width="100%"
             height="400px"
             data={datosGrafica}
-            options={{
-              title: `Cotización de ${empresaSeleccionada}`,
-              hAxis: {
-                title: modoCotizacion === 'horaDelDia' ? 'Hora del Día' : 'Fecha',
-              },
-              vAxis: {
-                title: 'Cotización',
-              },
-              legend: 'none',
-            }}
+            options={options}
           />
         ) : (
           <p>Selecciona una empresa y un modo para ver la gráfica.</p>
@@ -209,4 +219,4 @@ function BotonesEmpresa() {
   );
 }
 
-export default BotonesEmpresa;
+export default GraficosCotizaciones;
