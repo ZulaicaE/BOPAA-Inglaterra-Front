@@ -1,68 +1,122 @@
+/* General Container for Chart and Buttons */
 .grafico-container {
   display: flex;
   flex-direction: row;
   width: 100%;
+  background-color: #f8f9fa;
+  padding: 15px;
+  gap: 20px;
+  border: 2px solid #343a40;
+  border-radius: 10px;
 }
 
+/* Chart Container */
 .containerGrafico {
-  width: 70%; /* 70% del ancho para el gráfico */
+  width: 70%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px;
+  padding: 15px;
   background-color: #ffffff;
   border: 1px solid #e1e3e6;
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Buttons Container */
 .containerBotones {
-  width: 30%; /* 30% del ancho para los botones */
+  width: 30%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
-  padding: 10px;
+  justify-content: space-between;
+  padding: 15px;
+  background-color: #ffffff;
+  border: 1px solid #e1e3e6;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Buttons for Companies */
 .empresa-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 8px;
-  margin: 4px;
+  padding: 10px 15px;
+  margin: 5px 0;
   font-size: 14px;
-  width: 100%; /* Ocupa todo el ancho de la columna */
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #343a40;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
   text-align: center;
+  transition: background-color 0.3s ease;
 }
 
-.nombre {
-  margin-left: auto;
-  text-align: right;
+.empresa-button:hover {
+  background-color: #495057;
 }
 
+.empresa-button.activo {
+  background-color: #0c5aa9;
+  color: #fff;
+  border-color: #0c5aa9;
+}
+
+/* Day and Month Selector */
 .fechas-container {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
+  flex-direction: column;
+  gap: 10px;
   width: 100%;
 }
 
 .fecha-input {
-  flex: 1;
-  margin-right: 5px;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
 }
 
-.fecha-input:last-child {
-  margin-right: 0;
-}
-
+/* Buttons for Mode Selection */
 .modo-cotizacion-buttons {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  gap: 10px;
+  width: 60%;
+}
+
+.buttons-cotizaciones{
+  margin-top: 20px;
 }
 
 .modo-cotizacion-buttons button {
-  margin-bottom: 5px;
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #0c5aa9;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.modo-cotizacion-buttons button:hover {
+  background-color: #495057;
+}
+
+.modo-cotizacion-buttons button:active {
+  background-color: #0c5aa9;
+}
+
+.form-label {
+  margin-right: 10px;
+  color: black;
+  font-weight: 400;
+}
+
+.container-empresas {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
 }

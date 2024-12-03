@@ -83,7 +83,7 @@ function GraficoTorta() {
   }, [fecha]);
 
   return (
-    <div className="grafico-container">
+    <div className="grafico-container-torta">
       {datosGrafico.length > 1 ? (
         <Chart
           chartType="PieChart"
@@ -93,10 +93,10 @@ function GraficoTorta() {
           height={"400px"}
         />
       ) : (
-        <p>Introduce una fecha para cargar el gráfico...</p>
+        <p className="grafico-torta-error">Introduce una fecha valida para cargar el gráfico...</p>
       )}
       <div className="fecha-input">
-        <label htmlFor="fecha">Selecciona una fecha y hora (YYYY-MM-DDTHH:MM):</label>
+        <label htmlFor="fecha">Selecciona una fecha y hora:</label>
         <input
           type="datetime-local"
           id="fecha"
