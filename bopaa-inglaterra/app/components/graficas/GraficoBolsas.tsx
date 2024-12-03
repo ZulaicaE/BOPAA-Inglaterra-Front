@@ -24,10 +24,10 @@ export const options = {
       pointSize: 5,
     },
     hAxis: {
-      title: 'Fecha',
+      title: '',
     },
     vAxis: {
-      title: 'Valor',
+      title: 'Libra Esterlina £',
     }
 };
 
@@ -39,6 +39,8 @@ function GraficoBolsas() {
   const [datosGrafica, setDatosGrafica] = useState<any[]>([]);
   const [diaSeleccionado, setDiaSeleccionado] = useState<string | null>(null);
   const [mesSeleccionado, setMesSeleccionado] = useState<string | null>(null);
+
+  const cambioMoneda: number = 0.79;
 
   useEffect(() => {
     const fechaActual = new Date();
@@ -88,7 +90,7 @@ function GraficoBolsas() {
           ['Hora', 'Cotización'], // Encabezado
           ...indices
             .filter((indice: any) => indice.fecha === diaSeleccionado)
-            .map((indice: any) => [indice.hora, parseFloat(indice.valor)]),
+            .map((indice: any) => [indice.hora, cambioMoneda*(parseFloat(indice.valor))]),
         ];
       } else if (modoCotizacion === 'diaDelMes' && mesSeleccionado) {
         
@@ -103,7 +105,7 @@ function GraficoBolsas() {
           ...Object.entries(
             indicesMes.reduce((acc: any, indice: any) => {
               const fecha = indice.fecha;
-              const precio = parseFloat(indice.valor);
+              const precio = cambioMoneda*(parseFloat(indice.valor));
         
               if (!acc[fecha]) {
                 acc[fecha] = {
@@ -129,9 +131,6 @@ function GraficoBolsas() {
       
         datosConvertidos = datosVelas;
       }
-
-      console.log(datosConvertidos);
-
       setDatosGrafica(datosConvertidos);
     } catch (error) {
       console.log('Error al cargar datos de la gráfica:', error);
