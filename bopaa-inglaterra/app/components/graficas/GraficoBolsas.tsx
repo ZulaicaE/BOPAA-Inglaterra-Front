@@ -43,23 +43,27 @@ function GraficoBolsas() {
   const cambioMoneda: number = 0.79;
 
   useEffect(() => {
-    const fechaActual = new Date();
-    setDiaSeleccionado(fechaActual.toISOString().split('T')[0]); // Establece el día actual como el predeterminado
+    const fechaActual = new Date().toISOString().split('T')[0];
+    setDiaSeleccionado(fechaActual); // Establece el día actual como el predeterminado
 
+    const mesActual = new Date().toISOString().slice(0, 7); // Formato 'YYYY-MM'
+    setMesSeleccionado(mesActual); // Supone que tienes una función para actualizar mesSeleccionado
+  
     const fetchBolsas = async () => {
       try {
         const bolsasDB = await getBolsas();
         setBolsas(bolsasDB);
-
-        if (bolsasDB.length > 0) {
-          const primeraBolsa = bolsasDB[0].codigoBolsa;
-          setBolsaSeleccionada(primeraBolsa);
+  
+        // Establece 'LSE' como la bolsa predeterminada si existe, o la primera bolsa si no.
+        const bolsaPorDefecto = bolsasDB.find((bolsa: { codigoBolsa: string; }) => bolsa.codigoBolsa === 'LSE')?.codigoBolsa || bolsasDB[0]?.codigoBolsa;
+        if (bolsaPorDefecto) {
+          setBolsaSeleccionada(bolsaPorDefecto);
         }
       } catch (error) {
         console.log('Error al obtener bolsas:', error);
       }
     };
-
+  
     fetchBolsas();
   }, []);
 
