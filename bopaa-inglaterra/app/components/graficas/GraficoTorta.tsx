@@ -23,12 +23,35 @@ const options = {
 function GraficoTorta() {
   const [datosGrafico, setDatosGrafico] = useState<any[]>([]);
   const [fecha, setFecha] = useState<string>("");
-
   const cambioMoneda: number = 0.79;
 
   const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFecha(event.target.value);
   };
+
+  // Función para obtener la última fecha de cotización
+  const fetchUltimaFecha = async () => {
+    try {
+      const empresasDB = await getEmpresas();
+      if (empresasDB.length > 0) {
+        // Obtener la última fecha de cotización disponible de la primera empresa (o ajusta según tus necesidades)
+        const cotizaciones = await getCotizacionesByFecha(empresasDB[0].codigoEmpresa, "2024-01-01T00:00", new Date().toISOString().split('T')[0]);
+        if (cotizaciones.length > 0) {
+          // Obtener la última cotización y combinar fecha y hora en el formato correcto
+          const ultimaCotizacion = cotizaciones[cotizaciones.length - 1];
+          const fechaFormateada = `${ultimaCotizacion.fecha}T${ultimaCotizacion.hora}`;
+          setFecha(fechaFormateada);
+        }
+      }
+    } catch (error) {
+      console.log("Error al obtener la última fecha de cotización:", error);
+    }
+  };
+
+  useEffect(() => {
+    // Llamar a la función para obtener la última fecha cuando se monte el componente
+    fetchUltimaFecha();
+  }, []);
 
   useEffect(() => {
     const fetchDatosGrafico = async () => {
@@ -40,12 +63,12 @@ function GraficoTorta() {
         const datos = [["Empresa", "Participación"]];
 
         for (const empresa of empresasDB) {
-          const cotizaciones = await getCotizacionesByFecha(empresa.codigoEmpresa, fecha, fecha); // Fecha exacta, misma para desde y hasta);
+          const cotizaciones = await getCotizacionesByFecha(empresa.codigoEmpresa, fecha, fecha);
 
           console.log(cotizaciones);
           if (cotizaciones.length > 0) {
             const cotizacionHora = cotizaciones[0].cotizacion; // Valor de la cotización
-            const participacion = cambioMoneda*(empresa.acciones*cotizacionHora);
+            const participacion = cambioMoneda * (empresa.acciones * cotizacionHora);
             datos.push([empresa.nombreEmpresa, participacion]);
           }
         }
