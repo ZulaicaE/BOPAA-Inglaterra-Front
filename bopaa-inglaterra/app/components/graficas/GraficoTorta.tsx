@@ -7,8 +7,9 @@ import { getEmpresas } from "@/app/services/Empresas";
 import { getCotizacionesByFecha } from "@/app/services/Empresas";
 
 const options = {
-  title: "Participación de Empresas en la Bolsa",
+  title: "Participación de empresas en la bolsa de Londres",
   is3D: true, // Activar 3D
+  sliceVisibilityThreshold: 0,
   legend: {
     position: "bottom",
     alignment: "center",
@@ -22,6 +23,8 @@ const options = {
 function GraficoTorta() {
   const [datosGrafico, setDatosGrafico] = useState<any[]>([]);
   const [fecha, setFecha] = useState<string>("");
+
+  const cambioMoneda: number = 0.79;
 
   const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFecha(event.target.value);
@@ -42,7 +45,7 @@ function GraficoTorta() {
           console.log(cotizaciones);
           if (cotizaciones.length > 0) {
             const cotizacionHora = cotizaciones[0].cotizacion; // Valor de la cotización
-            const participacion = empresa.acciones * cotizacionHora;
+            const participacion = cambioMoneda*(empresa.acciones*cotizacionHora);
             datos.push([empresa.nombreEmpresa, participacion]);
           }
         }

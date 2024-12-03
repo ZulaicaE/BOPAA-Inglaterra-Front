@@ -25,10 +25,10 @@ export const options = {
     pointSize: 5,
   },
   hAxis: {
-    title: 'Fecha',
+    title: '',
   },
   vAxis: {
-    title: 'Valor',
+    title: 'Libra Esterlina £',
   }
 };
 
@@ -78,9 +78,11 @@ function GraficosCotizaciones() {
 
     const fechaDesde: string = '2024-01-01T00:00';
     const fechaActual: string = new Date().toISOString().slice(0, 16);
+    const cambioMoneda: number = 0.79;
 
     try {
       const cotizaciones = await getCotizacionesByFecha(empresaSeleccionada, fechaDesde, fechaActual);
+
 
       let datosConvertidos: any[] = [];
       if (modoCotizacion === 'horaDelDia' && diaSeleccionado) {
@@ -88,7 +90,7 @@ function GraficosCotizaciones() {
           ['Hora', 'Cotización'], // Encabezado
           ...cotizaciones
             .filter((cotizacion: any) => cotizacion.fecha === diaSeleccionado)
-            .map((cotizacion: any) => [cotizacion.hora, parseFloat(cotizacion.cotizacion)]),
+            .map((cotizacion: any) => [cotizacion.hora, cambioMoneda*(parseFloat(cotizacion.cotizacion))]),
         ];
       } else if (modoCotizacion === 'diaDelMes' && mesSeleccionado) {
         
@@ -97,14 +99,13 @@ function GraficosCotizaciones() {
           return mesCotizacion === mesSeleccionado; // Comparar con el mes seleccionado (también en formato 'YYYY-MM')
         });
 
-        console.log(cotizacionesMes);
         // Formatear datos para el gráfico de velas
         const datosVelas = [
           ['Fecha', 'Minimo', 'Apertura', 'Cierre', 'Maximo'],
           ...Object.entries(
             cotizacionesMes.reduce((acc: any, cotizacion: any) => {
               const fecha = cotizacion.fecha;
-              const precio = parseFloat(cotizacion.cotizacion);
+              const precio = cambioMoneda*(parseFloat(cotizacion.cotizacion));
         
               if (!acc[fecha]) {
                 acc[fecha] = {
@@ -127,8 +128,6 @@ function GraficosCotizaciones() {
             return [fecha, valores.minimo, valores.apertura, valores.cierre, valores.maximo];
           }),
         ];
-      
-        console.log(datosVelas);
 
         datosConvertidos = datosVelas;
       }
