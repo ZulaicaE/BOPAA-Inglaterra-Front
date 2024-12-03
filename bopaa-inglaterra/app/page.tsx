@@ -4,6 +4,7 @@ import { Introduccion } from "./components/introduccion/Introduccion";
 import { Footer } from "./components/footer/Footer";
 import GraficoCotizaciones from "./components/graficas/GraficoCotizaciones";
 import GraficoBolsas from "./components/graficas/GraficoBolsas";
+import GraficoTorta from "./components/graficas/GraficoTorta";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <Introduccion/>
       <GraficoCotizaciones />
       <GraficoBolsas />
+      <GraficoTorta />
       <Footer/>
     </main>
   );
