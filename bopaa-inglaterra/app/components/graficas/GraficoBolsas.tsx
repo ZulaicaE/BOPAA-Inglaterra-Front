@@ -13,22 +13,23 @@ interface Bolsa {
 }
 
 export const options = {
-    legend: "none",
-    bar: { groupWidth: "80%" }, // Remove space between bars.
-    candlestick: {
-      fallingColor: { strokeWidth: 0, fill: "#a52714" }, // red
-      risingColor: { strokeWidth: 0, fill: "#0f9d58" }, // green
-    },
-    line: {
-      curveType: 'function',
-      pointSize: 5,
-    },
-    hAxis: {
-      title: '',
-    },
-    vAxis: {
-      title: 'Libra Esterlina £',
-    }
+  legend: "none",
+  title: "Índice Bursátil de la bolsa:",
+  bar: { groupWidth: "80%" }, // Remove space between bars.
+  candlestick: {
+    fallingColor: { strokeWidth: 0, fill: "#a52714" }, // red
+    risingColor: { strokeWidth: 0, fill: "#0f9d58" }, // green
+  },
+  line: {
+    curveType: 'function',
+    pointSize: 5,
+  },
+  hAxis: {
+    title: '',
+  },
+  vAxis: {
+    title: 'Libra Esterlina £',
+  }
 };
 
 
@@ -48,12 +49,12 @@ function GraficoBolsas() {
 
     const mesActual = new Date().toISOString().slice(0, 7); // Formato 'YYYY-MM'
     setMesSeleccionado(mesActual); // Supone que tienes una función para actualizar mesSeleccionado
-  
+
     const fetchBolsas = async () => {
       try {
         const bolsasDB = await getBolsas();
         setBolsas(bolsasDB);
-  
+
         // Establece 'LSE' como la bolsa predeterminada si existe, o la primera bolsa si no.
         const bolsaPorDefecto = bolsasDB.find((bolsa: { codigoBolsa: string; }) => bolsa.codigoBolsa === 'LSE')?.codigoBolsa || bolsasDB[0]?.codigoBolsa;
         if (bolsaPorDefecto) {
@@ -63,7 +64,7 @@ function GraficoBolsas() {
         console.log('Error al obtener bolsas:', error);
       }
     };
-  
+
     fetchBolsas();
   }, []);
 
@@ -94,10 +95,10 @@ function GraficoBolsas() {
           ['Hora', 'Cotización'], // Encabezado
           ...indices
             .filter((indice: any) => indice.fecha === diaSeleccionado)
-            .map((indice: any) => [indice.hora, cambioMoneda*(parseFloat(indice.valor))]),
+            .map((indice: any) => [indice.hora, cambioMoneda * (parseFloat(indice.valor))]),
         ];
       } else if (modoCotizacion === 'diaDelMes' && mesSeleccionado) {
-        
+
         const indicesMes = indices.filter((indice: any) => {  // Filtrar cotizaciones para el mes seleccionado
           const mesIndice = indice.fecha.slice(0, 7); // Extrae directamente 'YYYY-MM'
           return mesIndice === mesSeleccionado; // Comparar con el mes seleccionado (también en formato 'YYYY-MM')
@@ -109,8 +110,8 @@ function GraficoBolsas() {
           ...Object.entries(
             indicesMes.reduce((acc: any, indice: any) => {
               const fecha = indice.fecha;
-              const precio = cambioMoneda*(parseFloat(indice.valor));
-        
+              const precio = cambioMoneda * (parseFloat(indice.valor));
+
               if (!acc[fecha]) {
                 acc[fecha] = {
                   fecha,
@@ -124,7 +125,7 @@ function GraficoBolsas() {
                 acc[fecha].maximo = Math.max(acc[fecha].maximo, precio);
                 acc[fecha].minimo = Math.min(acc[fecha].minimo, precio);
               }
-        
+
               return acc;
             }, {})
           ).map(([fecha, valores]: [string, any]) => {
@@ -132,7 +133,7 @@ function GraficoBolsas() {
             return [fecha, valores.minimo, valores.apertura, valores.cierre, valores.maximo];
           }),
         ];
-      
+
         datosConvertidos = datosVelas;
       }
       setDatosGrafica(datosConvertidos);
@@ -148,7 +149,7 @@ function GraficoBolsas() {
   return (
     <div className="grafico-container">
       <div className="container-grafico">
-        {datosGrafica.length > 0 ? (
+        {datosGrafica.length > 1 ? (
           <Chart
             chartType={modoCotizacion === 'diaDelMes' ? 'CandlestickChart' : 'LineChart'}
             width="100%"
@@ -157,7 +158,7 @@ function GraficoBolsas() {
             options={options}
           />
         ) : (
-          <p>Selecciona una empresa y un modo para ver la gráfica.</p>
+          <p>No hay datos disponibles para mostrar en el gráfico.</p>
         )}
       </div>
 
@@ -193,7 +194,7 @@ function GraficoBolsas() {
             <Button
               key={bolsa.codigoBolsa}
               variant={bolsaSeleccionada === bolsa.codigoBolsa ? 'primary' : 'secondary'}
-              className="bolsa-button"
+              className={`bolsa-button ${bolsaSeleccionada === bolsa.codigoBolsa ? 'activo' : ''}`}
               onClick={() => handleToggleBolsa(bolsa.codigoBolsa)}
             >
               <span className="nombre">{bolsa.codigoBolsa}</span>

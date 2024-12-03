@@ -15,6 +15,7 @@ interface Empresa {
 
 export const options = {
   legend: "none",
+  title: "Cotizaciones de la empresa:",
   bar: { groupWidth: "80%" }, // Remove space between bars.
   candlestick: {
     fallingColor: { strokeWidth: 0, fill: "#a52714" }, // red
@@ -43,6 +44,9 @@ function GraficosCotizaciones() {
   useEffect(() => {
     const fechaActual = new Date();
     setDiaSeleccionado(fechaActual.toISOString().split('T')[0]); // Establece el día actual como el predeterminado
+
+    const mesActual = new Date().toISOString().slice(0, 7); // Formato 'YYYY-MM'
+    setMesSeleccionado(mesActual); // Supone que tienes una función para actualizar mesSeleccionado
 
     const fetchEmpresas = async () => {
       try {
@@ -90,10 +94,10 @@ function GraficosCotizaciones() {
           ['Hora', 'Cotización'], // Encabezado
           ...cotizaciones
             .filter((cotizacion: any) => cotizacion.fecha === diaSeleccionado)
-            .map((cotizacion: any) => [cotizacion.hora, cambioMoneda*(parseFloat(cotizacion.cotizacion))]),
+            .map((cotizacion: any) => [cotizacion.hora, cambioMoneda * (parseFloat(cotizacion.cotizacion))]),
         ];
       } else if (modoCotizacion === 'diaDelMes' && mesSeleccionado) {
-        
+
         const cotizacionesMes = cotizaciones.filter((cotizacion: any) => {  // Filtrar cotizaciones para el mes seleccionado
           const mesCotizacion = cotizacion.fecha.slice(0, 7); // Extrae directamente 'YYYY-MM'
           return mesCotizacion === mesSeleccionado; // Comparar con el mes seleccionado (también en formato 'YYYY-MM')
@@ -105,8 +109,8 @@ function GraficosCotizaciones() {
           ...Object.entries(
             cotizacionesMes.reduce((acc: any, cotizacion: any) => {
               const fecha = cotizacion.fecha;
-              const precio = cambioMoneda*(parseFloat(cotizacion.cotizacion));
-        
+              const precio = cambioMoneda * (parseFloat(cotizacion.cotizacion));
+
               if (!acc[fecha]) {
                 acc[fecha] = {
                   fecha,
@@ -120,7 +124,7 @@ function GraficosCotizaciones() {
                 acc[fecha].maximo = Math.max(acc[fecha].maximo, precio);
                 acc[fecha].minimo = Math.min(acc[fecha].minimo, precio);
               }
-        
+
               return acc;
             }, {})
           ).map(([fecha, valores]: [string, any]) => {
@@ -145,7 +149,7 @@ function GraficosCotizaciones() {
   return (
     <div className="grafico-container">
       <div className="containerGrafico">
-        {datosGrafica.length > 0 ? (
+        {datosGrafica.length > 1 ? (
           <Chart
             chartType={modoCotizacion === 'diaDelMes' ? 'CandlestickChart' : 'LineChart'}
             width="100%"
@@ -154,7 +158,7 @@ function GraficosCotizaciones() {
             options={options}
           />
         ) : (
-          <p>Selecciona una empresa y un modo para ver la gráfica.</p>
+          <p>No hay datos disponibles para mostrar en el gráfico.</p>
         )}
       </div>
 
@@ -190,7 +194,7 @@ function GraficosCotizaciones() {
             <Button
               key={empresa.codigoEmpresa}
               variant={empresaSeleccionada === empresa.codigoEmpresa ? 'primary' : 'secondary'}
-              className="empresa-button"
+              className={`empresa-button ${empresaSeleccionada === empresa.codigoEmpresa ? 'activo' : ''}`}
               onClick={() => handleToggleEmpresa(empresa.codigoEmpresa)}
             >
               <span className="nombre">{empresa.nombreEmpresa}</span>
@@ -199,7 +203,7 @@ function GraficosCotizaciones() {
         </ButtonGroup>
 
         {/* Botones de Modo de Cotización */}
-        <ButtonGroup className="modo-cotizacion-buttons" aria-label="Modo de Cotización">
+        <ButtonGroup className="modo-cotizacion-buttons buttons-cotizaciones" aria-label="Modo de Cotización">
           <Button
             variant={modoCotizacion === 'horaDelDia' ? 'primary' : 'secondary'}
             onClick={() => handleModoCambio('horaDelDia')}

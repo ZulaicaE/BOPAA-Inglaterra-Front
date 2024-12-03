@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: row;
     width: 100%;
+    margin-top: 3px;
 }
 
 .container-grafico {
@@ -28,9 +29,6 @@
 }
 
 .bolsa-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     padding: 8px;
     margin: 4px;
     font-size: 14px;
@@ -68,4 +66,39 @@
 
 .modo-cotizacion-buttons button {
     margin-bottom: 5px;
+}
+
+.container-bolsas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    /* Ajusta el tamaño mínimo/máximo */
+    gap: 10px;
+    /* Espacio entre botones */
+    width: 100%;
+    padding: 10px;
+}
+
+/* Botones para las Bolsas */
+.bolsa-button {
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #343a40;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.bolsa-button:hover {
+    background-color: #495057;
+}
+
+.bolsa-button.activo {
+    background-color: #0c5aa9;
+    color: #fff;
+    border-color: #0c5aa9;
 }
