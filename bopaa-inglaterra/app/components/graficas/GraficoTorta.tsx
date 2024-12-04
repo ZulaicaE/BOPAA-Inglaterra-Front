@@ -29,15 +29,14 @@ function GraficoTorta() {
     setFecha(event.target.value);
   };
 
-  // Función para obtener la última fecha de cotización
   const fetchUltimaFecha = async () => {
     try {
       const empresasDB = await getEmpresas();
       if (empresasDB.length > 0) {
-        // Obtener la última fecha de cotización disponible de la primera empresa (o ajusta según tus necesidades)
+        // Obtengo la ultima fecha de cotizacion disponible
         const cotizaciones = await getCotizacionesByFecha(empresasDB[0].codigoEmpresa, "2024-01-01T00:00", new Date().toISOString().split('T')[0]);
         if (cotizaciones.length > 0) {
-          // Obtener la última cotización y combinar fecha y hora en el formato correcto
+          // Obtengo la ultima cotizacion (combino fecha y hora en el formato correcto)
           const ultimaCotizacion = cotizaciones[cotizaciones.length - 1];
           const fechaFormateada = `${ultimaCotizacion.fecha}T${ultimaCotizacion.hora}`;
           setFecha(fechaFormateada);
@@ -49,7 +48,6 @@ function GraficoTorta() {
   };
 
   useEffect(() => {
-    // Llamar a la función para obtener la última fecha cuando se monte el componente
     fetchUltimaFecha();
   }, []);
 
@@ -67,7 +65,7 @@ function GraficoTorta() {
 
           console.log(cotizaciones);
           if (cotizaciones.length > 0) {
-            const cotizacionHora = cotizaciones[0].cotizacion; // Valor de la cotización
+            const cotizacionHora = cotizaciones[0].cotizacion;
             const participacion = cambioMoneda * (empresa.acciones * cotizacionHora);
             datos.push([empresa.nombreEmpresa, participacion]);
           }

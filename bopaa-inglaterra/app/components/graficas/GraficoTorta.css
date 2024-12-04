@@ -1,4 +1,3 @@
-/* Contenedor principal del gráfico */
 .grafico-container-torta {
     display: flex;
     flex-direction: column;
@@ -13,7 +12,6 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Gráfico */
 .grafico-container-torta .google-visualization-tooltip {
     font-size: 14px;
 }
@@ -23,7 +21,6 @@
     padding: 10px;
 }
 
-/* Input de fecha */
 .fecha-input {
     display: flex;
     flex-direction: column;
@@ -58,7 +55,6 @@
     outline: none;
 }
 
-/* Estilo del párrafo para mensajes */
 .grafico-container p {
     font-size: 16px;
     color: #495057;

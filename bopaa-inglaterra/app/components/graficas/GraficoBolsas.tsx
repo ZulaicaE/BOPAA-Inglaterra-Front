@@ -45,17 +45,17 @@ function GraficoBolsas() {
 
   useEffect(() => {
     const fechaActual = new Date().toISOString().split('T')[0];
-    setDiaSeleccionado(fechaActual); // Establece el día actual como el predeterminado
+    setDiaSeleccionado(fechaActual); // Establece el dia actual como el predeterminado
 
     const mesActual = new Date().toISOString().slice(0, 7); // Formato 'YYYY-MM'
-    setMesSeleccionado(mesActual); // Supone que tienes una función para actualizar mesSeleccionado
+    setMesSeleccionado(mesActual);
 
     const fetchBolsas = async () => {
       try {
         const bolsasDB = await getBolsas();
         setBolsas(bolsasDB);
 
-        // Establece 'LSE' como la bolsa predeterminada si existe, o la primera bolsa si no.
+        // Establece LSE como la bolsa predeterminada
         const bolsaPorDefecto = bolsasDB.find((bolsa: { codigoBolsa: string; }) => bolsa.codigoBolsa === 'LSE')?.codigoBolsa || bolsasDB[0]?.codigoBolsa;
         if (bolsaPorDefecto) {
           setBolsaSeleccionada(bolsaPorDefecto);
@@ -101,10 +101,10 @@ function GraficoBolsas() {
 
         const indicesMes = indices.filter((indice: any) => {  // Filtrar cotizaciones para el mes seleccionado
           const mesIndice = indice.fecha.slice(0, 7); // Extrae directamente 'YYYY-MM'
-          return mesIndice === mesSeleccionado; // Comparar con el mes seleccionado (también en formato 'YYYY-MM')
+          return mesIndice === mesSeleccionado;
         });
 
-        // Formatear datos para el gráfico de velas
+        // Formatear datos para el grafico de velas
         const datosVelas = [
           ['Fecha', 'Minimo', 'Apertura', 'Cierre', 'Maximo'],
           ...Object.entries(
@@ -121,7 +121,7 @@ function GraficoBolsas() {
                   maximo: precio,
                 };
               } else {
-                acc[fecha].cierre = precio; // Actualiza el cierre al precio más reciente de la fecha.
+                acc[fecha].cierre = precio;
                 acc[fecha].maximo = Math.max(acc[fecha].maximo, precio);
                 acc[fecha].minimo = Math.min(acc[fecha].minimo, precio);
               }
@@ -129,7 +129,7 @@ function GraficoBolsas() {
               return acc;
             }, {})
           ).map(([fecha, valores]: [string, any]) => {
-            // Construye el array en el formato esperado.
+            // Construye el array para setear datos en la grafica
             return [fecha, valores.minimo, valores.apertura, valores.cierre, valores.maximo];
           }),
         ];
@@ -148,6 +148,7 @@ function GraficoBolsas() {
 
   return (
     <div className="grafico-container">
+      {/* Grafico */}
       <div className="container-grafico">
         {datosGrafica.length > 1 ? (
           <Chart
