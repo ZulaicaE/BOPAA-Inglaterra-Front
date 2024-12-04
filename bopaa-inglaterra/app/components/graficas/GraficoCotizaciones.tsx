@@ -43,10 +43,10 @@ function GraficosCotizaciones() {
 
   useEffect(() => {
     const fechaActual = new Date();
-    setDiaSeleccionado(fechaActual.toISOString().split('T')[0]); // Establece el día actual como el predeterminado
+    setDiaSeleccionado(fechaActual.toISOString().split('T')[0]); // Establece el dia actual como predeterminado
 
     const mesActual = new Date().toISOString().slice(0, 7); // Formato 'YYYY-MM'
-    setMesSeleccionado(mesActual); // Supone que tienes una función para actualizar mesSeleccionado
+    setMesSeleccionado(mesActual);
 
     const fetchEmpresas = async () => {
       try {
@@ -91,7 +91,7 @@ function GraficosCotizaciones() {
       let datosConvertidos: any[] = [];
       if (modoCotizacion === 'horaDelDia' && diaSeleccionado) {
         datosConvertidos = [
-          ['Hora', 'Cotización'], // Encabezado
+          ['Hora', 'Cotización'],
           ...cotizaciones
             .filter((cotizacion: any) => cotizacion.fecha === diaSeleccionado)
             .map((cotizacion: any) => [cotizacion.hora, cambioMoneda * (parseFloat(cotizacion.cotizacion))]),
@@ -100,10 +100,10 @@ function GraficosCotizaciones() {
 
         const cotizacionesMes = cotizaciones.filter((cotizacion: any) => {  // Filtrar cotizaciones para el mes seleccionado
           const mesCotizacion = cotizacion.fecha.slice(0, 7); // Extrae directamente 'YYYY-MM'
-          return mesCotizacion === mesSeleccionado; // Comparar con el mes seleccionado (también en formato 'YYYY-MM')
+          return mesCotizacion === mesSeleccionado;
         });
 
-        // Formatear datos para el gráfico de velas
+        // Formatear datos para el grafico de velas
         const datosVelas = [
           ['Fecha', 'Minimo', 'Apertura', 'Cierre', 'Maximo'],
           ...Object.entries(
@@ -120,7 +120,7 @@ function GraficosCotizaciones() {
                   maximo: precio,
                 };
               } else {
-                acc[fecha].cierre = precio; // Actualiza el cierre al precio más reciente de la fecha.
+                acc[fecha].cierre = precio;
                 acc[fecha].maximo = Math.max(acc[fecha].maximo, precio);
                 acc[fecha].minimo = Math.min(acc[fecha].minimo, precio);
               }
@@ -128,7 +128,7 @@ function GraficosCotizaciones() {
               return acc;
             }, {})
           ).map(([fecha, valores]: [string, any]) => {
-            // Construye el array en el formato esperado.
+            // Construye el array para setear datos en la grafica
             return [fecha, valores.minimo, valores.apertura, valores.cierre, valores.maximo];
           }),
         ];
@@ -148,6 +148,7 @@ function GraficosCotizaciones() {
 
   return (
     <div className="grafico-container">
+      {/* Grafico */}
       <div className="containerGrafico">
         {datosGrafica.length > 1 ? (
           <Chart
@@ -164,7 +165,7 @@ function GraficosCotizaciones() {
 
       {/* Botones */}
       <div className="containerBotones">
-        {/* Selector de día */}
+        {/* Selector de dia */}
         {modoCotizacion === 'horaDelDia' && (
           <Form.Group controlId="selectorDia">
             <Form.Label>Selecciona un día</Form.Label>
@@ -202,7 +203,7 @@ function GraficosCotizaciones() {
           ))}
         </ButtonGroup>
 
-        {/* Botones de Modo de Cotización */}
+        {/* Botones de Modo de Cotizacion */}
         <ButtonGroup className="modo-cotizacion-buttons buttons-cotizaciones" aria-label="Modo de Cotización">
           <Button
             variant={modoCotizacion === 'horaDelDia' ? 'primary' : 'secondary'}
