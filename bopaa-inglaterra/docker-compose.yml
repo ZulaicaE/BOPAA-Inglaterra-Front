@@ -1,0 +1,13 @@
+services:
+  front:
+    build:
+      context: . 
+      dockerfile: Dockerfile.nginx
+    ports:
+      - "3000:80" # Mapea el puerto del servidor web (nginx) al host
+    networks:
+      - mybopaanetwork
+
+networks:
+  mybopaanetwork:
+    name: bopaa-inglaterra_mybopaanetwork
